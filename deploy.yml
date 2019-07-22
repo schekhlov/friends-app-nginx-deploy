@@ -1,0 +1,12 @@
+---
+- name: Deploy nginx
+  hosts: app-servers
+  become: true
+  become_user: "root"
+  vars:
+    image_tag: "{{ GIT_BRANCH|default('latest') }}"
+    docker_repo: "753380798922.dkr.ecr.eu-central-1.amazonaws.com/friends-app/nginx"
+    container_name: "friends-app-nginx"
+    docker_network_name: "friends-app-network"
+  roles:
+    - nginx

@@ -1,0 +1,4 @@
+production ansible_ssh_host=91.206.14.34 ansible_ssh_user=root
+
+[app-servers]
+production

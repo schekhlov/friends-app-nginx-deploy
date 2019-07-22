@@ -1,0 +1,25 @@
+---
+
+- name: Login to docker repository
+  shell: "$(aws ecr get-login --no-include-email --region eu-central-1)"
+
+- name: Pull docker image
+  shell: "docker pull {{ docker_repo }}:{{ image_tag }}"
+
+- name: Create a network
+  docker_network:
+    name: "{{ docker_network_name }}"
+
+- name: Stop and remove running nginx container
+  docker_container:
+    name: "{{ container_name }}"
+    state: absent
+
+- name: Start container
+  docker_container:
+    name: "{{ container_name }}"
+    image: "{{ docker_repo }}:{{ image_tag }}"
+    ports:
+     - "80:80"
+    networks:
+     - name: "{{ docker_network_name }}"
